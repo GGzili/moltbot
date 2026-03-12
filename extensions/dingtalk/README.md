@@ -360,6 +360,40 @@ openclaw configure --section channels
 }
 ```
 
+### 远程服务器手动配置（适用于 Docker/远程主机）
+
+如果你在远程服务器上部署 OpenClaw，可先找到配置文件位置：
+
+```bash
+find / -name openclaw.json 2>/dev/null
+```
+
+然后在 `~/.openclaw/openclaw.json` 中补充 **plugins.allow** 与 **channels.dingtalk**（示例见上文）。
+
+如果不方便直接编辑文件，也可以用命令写入：
+
+```bash
+openclaw config set plugins.enabled true
+openclaw config set plugins.allow '["dingtalk"]'
+
+openclaw config set channels.dingtalk.enabled true
+openclaw config set channels.dingtalk.clientId 你的ClientID
+openclaw config set channels.dingtalk.clientSecret 你的ClientSecret
+openclaw config set channels.dingtalk.robotCode 你的RobotCode
+openclaw config set channels.dingtalk.corpId 你的CorpId
+openclaw config set channels.dingtalk.agentId 你的AgentId
+openclaw config set channels.dingtalk.dmPolicy open
+openclaw config set channels.dingtalk.groupPolicy open
+openclaw config set channels.dingtalk.messageType markdown
+openclaw config set channels.dingtalk.debug false
+```
+
+配置完成后重启：
+
+```bash
+openclaw gateway restart
+```
+
 最后重启 Gateway
 
 > 使用交互式配置时，Gateway 会自动重启。使用手动配置时需要手动执行：

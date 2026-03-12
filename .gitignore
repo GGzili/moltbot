@@ -97,6 +97,12 @@ USER.md
 /local/
 package-lock.json
 .claude/
+
+# Repo-tracked Claude memory
+!.claude/
+!.claude/memory/
+!.claude/memory/MEMORY.md
+
 .agents/
 .agents
 .agent/
