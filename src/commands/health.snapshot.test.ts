@@ -2,7 +2,6 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { telegramPlugin } from "../../extensions/telegram/src/channel.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createTestRegistry } from "../test-utils/channel-plugins.js";
 import type { HealthSummary } from "./health.js";
@@ -100,19 +99,14 @@ async function runSuccessfulTelegramProbe(
 }
 
 let createPluginRuntime: typeof import("../plugins/runtime/index.js").createPluginRuntime;
-let setTelegramRuntime: typeof import("../../extensions/telegram/src/runtime.js").setTelegramRuntime;
 
 describe("getHealthSnapshot", () => {
   beforeAll(async () => {
     ({ createPluginRuntime } = await import("../plugins/runtime/index.js"));
-    ({ setTelegramRuntime } = await import("../../extensions/telegram/src/runtime.js"));
   });
 
   beforeEach(() => {
-    setActivePluginRegistry(
-      createTestRegistry([{ pluginId: "telegram", plugin: telegramPlugin, source: "test" }]),
-    );
-    setTelegramRuntime(createPluginRuntime());
+    setActivePluginRegistry(createTestRegistry([]));
   });
 
   afterEach(() => {

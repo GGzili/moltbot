@@ -3,7 +3,6 @@ import os from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import { WebSocket } from "ws";
-import { whatsappPlugin } from "../../extensions/whatsapp/src/channel.js";
 import type { ChannelPlugin } from "../channels/plugins/types.js";
 import { emitAgentEvent, registerAgentRunContext } from "../infra/agent-events.js";
 import { setRegistry } from "./server.agent.gateway-server-agent.mocks.js";
@@ -57,6 +56,22 @@ const createMSTeamsPlugin = (params?: { aliases?: string[] }): ChannelPlugin => 
     resolveAccount: () => ({}),
   },
 });
+
+const whatsappPlugin: ChannelPlugin = {
+  id: "whatsapp",
+  meta: {
+    id: "whatsapp",
+    label: "WhatsApp",
+    selectionLabel: "WhatsApp (QR link)",
+    docsPath: "/channels/whatsapp",
+    blurb: "test stub",
+  },
+  capabilities: { chatTypes: ["direct"] },
+  config: {
+    listAccountIds: () => [],
+    resolveAccount: () => ({}),
+  },
+};
 
 const emptyRegistry = createRegistry([]);
 const defaultRegistry = createRegistry([

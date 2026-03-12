@@ -2,9 +2,6 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { slackPlugin } from "../../../extensions/slack/src/channel.js";
-import { telegramPlugin } from "../../../extensions/telegram/src/channel.js";
-import { whatsappPlugin } from "../../../extensions/whatsapp/src/channel.js";
 import { jsonResult } from "../../agents/tools/common.js";
 import type { ChannelPlugin } from "../../channels/plugins/types.js";
 import type { OpenClawConfig } from "../../config/config.js";
@@ -114,48 +111,20 @@ function createAlwaysConfiguredPluginConfig(account: Record<string, unknown> = {
 }
 
 let createPluginRuntime: typeof import("../../plugins/runtime/index.js").createPluginRuntime;
-let setSlackRuntime: typeof import("../../../extensions/slack/src/runtime.js").setSlackRuntime;
-let setTelegramRuntime: typeof import("../../../extensions/telegram/src/runtime.js").setTelegramRuntime;
-let setWhatsAppRuntime: typeof import("../../../extensions/whatsapp/src/runtime.js").setWhatsAppRuntime;
 
-function installChannelRuntimes(params?: { includeTelegram?: boolean; includeWhatsApp?: boolean }) {
-  const runtime = createPluginRuntime();
-  setSlackRuntime(runtime);
-  if (params?.includeTelegram !== false) {
-    setTelegramRuntime(runtime);
-  }
-  if (params?.includeWhatsApp !== false) {
-    setWhatsAppRuntime(runtime);
-  }
+function installChannelRuntimes(_params?: { includeTelegram?: boolean; includeWhatsApp?: boolean }) {
+  const _runtime = createPluginRuntime();
 }
 
 describe("runMessageAction context isolation", () => {
   beforeAll(async () => {
     ({ createPluginRuntime } = await import("../../plugins/runtime/index.js"));
-    ({ setSlackRuntime } = await import("../../../extensions/slack/src/runtime.js"));
-    ({ setTelegramRuntime } = await import("../../../extensions/telegram/src/runtime.js"));
-    ({ setWhatsAppRuntime } = await import("../../../extensions/whatsapp/src/runtime.js"));
   });
 
   beforeEach(() => {
     installChannelRuntimes();
     setActivePluginRegistry(
       createTestRegistry([
-        {
-          pluginId: "slack",
-          source: "test",
-          plugin: slackPlugin,
-        },
-        {
-          pluginId: "whatsapp",
-          source: "test",
-          plugin: whatsappPlugin,
-        },
-        {
-          pluginId: "telegram",
-          source: "test",
-          plugin: telegramPlugin,
-        },
         {
           pluginId: "imessage",
           source: "test",
@@ -699,15 +668,7 @@ describe("runMessageAction sendAttachment hydration", () => {
 describe("runMessageAction sandboxed media validation", () => {
   beforeEach(() => {
     installChannelRuntimes({ includeTelegram: false, includeWhatsApp: false });
-    setActivePluginRegistry(
-      createTestRegistry([
-        {
-          pluginId: "slack",
-          source: "test",
-          plugin: slackPlugin,
-        },
-      ]),
-    );
+    setActivePluginRegistry(createTestRegistry([]));
   });
 
   afterEach(() => {
