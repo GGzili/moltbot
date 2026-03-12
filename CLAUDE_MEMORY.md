@@ -26,3 +26,17 @@ acpx, copilot-proxy, device-pair, diagnostics-otel, diffs, google-gemini-cli-aut
 - Does not want local builds (limited machine resources)
 - Wants changes pushed to GitHub for cross-machine workflow
 - Communicates in Chinese
+
+## Git Workflow Constraints
+- This is a private fork (GGzili/moltbot) tracking upstream (openclaw/openclaw)
+- NEVER push to upstream, only push to origin (GGzili/moltbot)
+- To sync upstream fixes:
+  1. `git fetch upstream main`
+  2. `git log upstream/main --not origin/main --oneline --no-merges` to see new commits
+  3. Filter out deleted channel/iOS/Swift fixes, cherry-pick relevant ones
+  4. `git push origin main`
+- Deleted channels to filter: telegram, discord, slack, whatsapp, signal, imessage, irc, line, matrix, msteams, googlechat, feishu, bluebubbles, mattermost, nextcloud-talk, nostr, synology-chat, tlon, twitch, zalo, zalouser
+- Also filter out iOS/macOS/Android/Swift related commits (native apps removed)
+
+## Upstream Sync Log
+- 2026-03-12: Cherry-picked 43 commits from upstream (dashboard-v2 UI, llm-task thinking override, ACP fixes, gateway hardening, terminal improvements, etc.)
