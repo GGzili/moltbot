@@ -1,26 +1,12 @@
 import type { OpenClawApp } from "./app.ts";
 import {
   loadChannels,
-  logoutWhatsApp,
-  startWhatsAppLogin,
-  waitWhatsAppLogin,
+  logoutChannel,
 } from "./controllers/channels.ts";
 import { loadConfig, saveConfig } from "./controllers/config.ts";
-import type { NostrProfile } from "./types.ts";
-import { createNostrProfileFormState } from "./views/channels.nostr-profile-form.ts";
 
-export async function handleWhatsAppStart(host: OpenClawApp, force: boolean) {
-  await startWhatsAppLogin(host, force);
-  await loadChannels(host, true);
-}
-
-export async function handleWhatsAppWait(host: OpenClawApp) {
-  await waitWhatsAppLogin(host);
-  await loadChannels(host, true);
-}
-
-export async function handleWhatsAppLogout(host: OpenClawApp) {
-  await logoutWhatsApp(host);
+export async function handleChannelLogout(host: OpenClawApp, channel: string) {
+  await logoutChannel(host, channel);
   await loadChannels(host, true);
 }
 

@@ -10,9 +10,7 @@ import {
   handleNostrProfileImport as handleNostrProfileImportInternal,
   handleNostrProfileSave as handleNostrProfileSaveInternal,
   handleNostrProfileToggleAdvanced as handleNostrProfileToggleAdvancedInternal,
-  handleWhatsAppLogout as handleWhatsAppLogoutInternal,
-  handleWhatsAppStart as handleWhatsAppStartInternal,
-  handleWhatsAppWait as handleWhatsAppWaitInternal,
+  handleChannelLogout as handleChannelLogoutInternal,
 } from "./app-channels.ts";
 import {
   handleAbortChat as handleAbortChatInternal,
@@ -240,10 +238,6 @@ export class OpenClawApp extends LitElement {
   @state() channelsSnapshot: ChannelsStatusSnapshot | null = null;
   @state() channelsError: string | null = null;
   @state() channelsLastSuccess: number | null = null;
-  @state() whatsappLoginMessage: string | null = null;
-  @state() whatsappLoginQrDataUrl: string | null = null;
-  @state() whatsappLoginConnected: boolean | null = null;
-  @state() whatsappBusy = false;
   @state() nostrProfileFormState: NostrProfileFormState | null = null;
   @state() nostrProfileAccountId: string | null = null;
 
@@ -606,16 +600,8 @@ export class OpenClawApp extends LitElement {
     );
   }
 
-  async handleWhatsAppStart(force: boolean) {
-    await handleWhatsAppStartInternal(this, force);
-  }
-
-  async handleWhatsAppWait() {
-    await handleWhatsAppWaitInternal(this);
-  }
-
-  async handleWhatsAppLogout() {
-    await handleWhatsAppLogoutInternal(this);
+  async handleChannelLogout(channel: string) {
+    await handleChannelLogoutInternal(this, channel);
   }
 
   async handleChannelConfigSave() {
