@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { vi } from "vitest";
+import { telegramPlugin, setTelegramRuntime } from "../../extensions/telegram/index.js";
 import * as replyModule from "../auto-reply/reply.js";
 import type { OpenClawConfig } from "../config/config.js";
 import { resolveMainSessionKey } from "../config/sessions.js";
